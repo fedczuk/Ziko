@@ -1,0 +1,60 @@
+[project]
+name = "ziko"  # Required
+version = "1.0.0"  # Required
+description = "A library for testing investment strategies."  # Optional
+readme = "README.md" # Optional
+requires-python = ">=3.7"
+license = {file = "LICENSE.txt"}
+authors = [
+  {name = "SF", email = "fedczuk@users.noreply.github.com" } # Optional
+]
+maintainers = [
+  {name = "SF", email = "fedczuk@users.noreply.github.com" } # Optional
+]
+
+# Classifiers help users find your project by categorizing it.
+#
+# For a list of valid classifiers, see https://pypi.org/classifiers/
+classifiers = [  # Optional
+  # How mature is this project? Common values are
+  #   3 - Alpha
+  #   4 - Beta
+  #   5 - Production/Stable
+  "Development Status :: 5 - Production/Stable",
+
+  # Indicate who your project is intended for
+  "Intended Audience :: Financial and Insurance Industry",
+  "Topic :: Office/Business :: Financial :: Investment",
+
+  # Pick your license as you wish
+  "License :: OSI Approved :: MIT License",
+
+  # Specify the Python versions you support here. In particular, ensure
+  # that you indicate you support Python 3. These classifiers are *not*
+  # checked by "pip install". See instead "python_requires" below.
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+dependencies = [
+  "pandas", "ta", "matplotlib", "scipy"
+]
+
+[project.optional-dependencies] # Optional
+dev = ["check-manifest"]
+test = ["coverage", "pytest"]
+
+
+[project.urls]  # Optional
+"Homepage" = "https://github.com/fedczuk/Ziko"
+"Bug Reports" = "https://github.com/fedczuk/Ziko/issues"
+"Source" = "https://github.com/fedczuk/Ziko"
+
+[build-system]
+requires = ["setuptools>=43.0.0", "wheel"]
+build-backend = "setuptools.build_meta"

@@ -1,0 +1,1 @@
+Biblioteka do testowania strategii inwestycyjnych.
