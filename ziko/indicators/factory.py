@@ -79,13 +79,7 @@ class IndicatorFactory(object):
     }
 
     @staticmethod
-    def make(setup):
-        """
-
-        :param setup:
-        :type setup: dict
-        :return:
-        """
+    def make(setup: dict):
         name = setup.get('name')
         indicator = IndicatorFactory.INDICATORS.get(name)
         return indicator.from_dict(setup.get('params'))

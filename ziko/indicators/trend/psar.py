@@ -1,4 +1,5 @@
 import ta
+from pandas import DataFrame
 
 from ziko.indicators.base import BaseIndicator
 from ziko.indicators.column import Column
@@ -7,14 +8,7 @@ from ziko.indicators.column import Column
 class PSARIndicator(BaseIndicator):
     NAME = 'PSAR'
 
-    def __init__(self, step=0.02, max_step=0.2, column='close', *args, **kwargs):
-        """
-
-        :param period:
-        :type period: int
-        :param column:
-        :type column: str
-        """
+    def __init__(self, step: float = 0.02, max_step: float = 0.2, column: str = 'close', *args, **kwargs):
         super().__init__(column, *args, **kwargs)
         self.step = step
         self.max_step = max_step
@@ -29,31 +23,26 @@ class PSARIndicator(BaseIndicator):
         self._psar_up_indicator_col = 'psar_up_i({},{}-{})'.format(self.column, self.step, self.max_step)
 
     @property
-    def psar(self):
+    def psar(self) -> Column:
         return Column(self._psar_col)
 
     @property
-    def down(self):
+    def down(self) -> Column:
         return Column(self._psar_down_col)
 
     @property
-    def down_indicator(self):
+    def down_indicator(self) -> Column:
         return Column(self._psar_down_indicator_col)
 
     @property
-    def up(self):
+    def up(self) -> Column:
         return Column(self._psar_up_col)
 
     @property
-    def up_indicator(self):
+    def up_indicator(self) -> Column:
         return Column(self._psar_up_indicator_col)
 
-    def calculate(self, data):
-        """
-
-        :param data:
-        :type data: pandas.DataFrame
-        """
+    def calculate(self, data: DataFrame):
         indicator = ta.trend.PSARIndicator(
             data['high'], data['low'], data['close'],
             step=self.step, max_step=self.max_step
@@ -74,12 +63,7 @@ class PSARIndicator(BaseIndicator):
         ]
         plot.indicators(data, lines, axis, self.NAME)
 
-    def to_dict(self):
-        """
-
-        :return:
-        :rtype: dict
-        """
+    def to_dict(self) -> dict:
         return {
             'name': self.__class__.__name__,
             'params': {

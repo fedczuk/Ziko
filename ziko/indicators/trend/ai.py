@@ -1,4 +1,5 @@
 import ta
+from pandas import DataFrame
 
 from ziko.indicators.base import BaseIndicator
 from ziko.indicators.partial import Partial
@@ -7,13 +8,7 @@ from ziko.indicators.partial import Partial
 class AroonIndicator(BaseIndicator):
     NAME = 'AroonIndicator'
 
-    def __init__(self, period=25, column='close', *args, **kwargs):
-        """
-        :param period:
-        :type period: int
-        :param column:
-        :type column: str
-        """
+    def __init__(self, period: int = 25, column: str = 'close', *args, **kwargs):
         super().__init__(column, *args, **kwargs)
         self.period = period
         self.name = None
@@ -23,22 +18,18 @@ class AroonIndicator(BaseIndicator):
         self._ai_up_col = 'ai_up({},{})'.format(self.column, self.period)
 
     @property
-    def ai(self):
+    def ai(self) -> Partial:
         return Partial(self._ai_col, self)
 
     @property
-    def ai_down(self):
+    def ai_down(self) -> Partial:
         return Partial(self._ai_down_col, self)
 
     @property
-    def ai_up(self):
+    def ai_up(self) -> Partial:
         return Partial(self._ai_up_col, self)
 
-    def calculate(self, data):
-        """
-        :param data:
-        :type data: pandas.DataFrame
-        """
+    def calculate(self, data: DataFrame):
         indicator = ta.trend.AroonIndicator(data['close'], window=self.period)
         data[self._ai_col] = indicator.aroon_indicator()
         data[self._ai_down_col] = indicator.aroon_down()
@@ -47,11 +38,7 @@ class AroonIndicator(BaseIndicator):
     def plot(self, plot, axis, data):
         plot.indicators(data, [self._ai_down_col, self._ai_up_col], axis, self.NAME)
 
-    def to_dict(self):
-        """
-        :return:
-        :rtype: dict
-        """
+    def to_dict(self) -> dict:
         return {
             'name': self.__class__.__name__,
             'params': {

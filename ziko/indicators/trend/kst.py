@@ -1,4 +1,5 @@
 import ta
+from pandas import DataFrame
 
 from ziko.indicators.base import BaseIndicator
 from ziko.indicators.partial import Partial
@@ -7,13 +8,8 @@ from ziko.indicators.partial import Partial
 class KSTIndicator(BaseIndicator):
     NAME = 'KST'
 
-    def __init__(self, r1=10, r2=15, r3=20, r4=30, n1=10, n2=10, n3=10, n4=15, nsig=9, column='close', *args, **kwargs):
-        """
-        :param period:
-        :type period: int
-        :param column:
-        :type column: str
-        """
+    def __init__(self, r1: int = 10, r2: int = 15, r3: int = 20, r4: int = 30, n1: int = 10, n2: int = 10, n3: int = 10,
+                 n4: int = 15, nsig: int = 9, column: str = 'close', *args, **kwargs):
         super().__init__(column, *args, **kwargs)
         self.r1 = r1
         self.r2 = r2
@@ -46,22 +42,18 @@ class KSTIndicator(BaseIndicator):
         )
 
     @property
-    def kst(self):
+    def kst(self) -> Partial:
         return Partial(self._kst_col, self)
 
     @property
-    def diff(self):
+    def diff(self) -> Partial:
         return Partial(self._kst_diff_col, self)
 
     @property
-    def sig(self):
+    def sig(self) -> Partial:
         return Partial(self._kst_sig_col, self)
 
-    def calculate(self, data):
-        """
-        :param data:
-        :type data: pandas.DataFrame
-        """
+    def calculate(self, data: DataFrame):
         indicator = ta.trend.KSTIndicator(
             data['close'],
             r1=self.r1, r2=self.r2, r3=self.r3, r4=self.r4,
@@ -76,11 +68,7 @@ class KSTIndicator(BaseIndicator):
     def plot(self, plot, axis, data):
         plot.indicators(data, [self._kst_col, self._kst_sig_col], axis, self.NAME)
 
-    def to_dict(self):
-        """
-        :return:
-        :rtype: dict
-        """
+    def to_dict(self) -> dict:
         return {
             'name': self.__class__.__name__,
             'params': {

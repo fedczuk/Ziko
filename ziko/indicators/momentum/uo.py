@@ -1,4 +1,5 @@
 import ta
+from pandas import DataFrame
 
 from ziko.indicators.base import BaseIndicator
 
@@ -6,13 +7,8 @@ from ziko.indicators.base import BaseIndicator
 class UltimateOscillator(BaseIndicator):
     NAME = 'UltimateOscillator'
 
-    def __init__(self, sp=7, mp=14, lp=28, ws=4.0, wm=2.0, wl=1.0, column='close', *args, **kwargs):
-        """
-        :param period:
-        :type period: int
-        :param column:
-        :type column: str
-        """
+    def __init__(self, sp: int = 7, mp: int = 14, lp: int = 28, ws: int = 4.0, wm: int = 2.0, wl: int = 1.0,
+                 column: str = 'close', *args, **kwargs):
         super().__init__(column, *args, **kwargs)
         self.sp = sp
         self.mp = mp
@@ -27,11 +23,7 @@ class UltimateOscillator(BaseIndicator):
             self.ws, self.wm, self.wl
         )
 
-    def calculate(self, data):
-        """
-        :param data:
-        :type data: pandas.DataFrame
-        """
+    def calculate(self, data: DataFrame):
         data[self.name] = ta.momentum.uo(
             data['high'], data['low'], data['close'],
             s=self.sp, m=self.mp, len=self.lp, ws=self.ws, wm=self.wm, wl=self.wl
@@ -42,11 +34,7 @@ class UltimateOscillator(BaseIndicator):
         axis.plot([data.index.min(), data.index.max()], [70, 70], '--', color='gray')
         axis.plot([data.index.min(), data.index.max()], [30, 30], '--', color='gray')
 
-    def to_dict(self):
-        """
-        :return:
-        :rtype: dict
-        """
+    def to_dict(self) -> dict:
         return {
             'name': self.__class__.__name__,
             'params': {
